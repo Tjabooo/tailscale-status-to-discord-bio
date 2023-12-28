@@ -8,6 +8,10 @@ TAILSCALE_STATUS_COMMAND = 'tailscale status --json'
 SLEEP_INTERVAL = 5
 TOKEN = '' # Your token here
 USER_ID = '' # Your user id here
+NODE_KEY_1 = '' # Your node key here
+NODE_KEY_2 = '' # Additional nodekey (if needed)
+NODE_KEY_3 = '' # Additional nodekey (if needed)
+# NODE_KEY_4... etc
 
 headers = {
     'authorization': TOKEN
@@ -37,10 +41,10 @@ def main():
 
         tailscale_log = get_tailscale_status()
         windows, linux, school = map(lambda key: "Online ✅" if tailscale_log['Peer'][key]['Online'] else "Offline ❌", [
-            '',
-            '',
-            ''
-        ]) # Your node keys
+            NODE_KEY_1,
+            NODE_KEY_2,
+            NODE_KEY_3
+        ])
 
         if any(status.split(" ")[0] != current_status for status, current_status in zip([windows, linux, school], [windows_status, linux_status, school_status])):
             response = update_discord_status(windows, linux, school, '\n'.join(discord_bio.split("\n")[4:]))
